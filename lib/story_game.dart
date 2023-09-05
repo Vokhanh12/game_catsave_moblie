@@ -26,7 +26,7 @@ class StoryGame extends FlameGame {
 
     final screenWidth = size[0];
     final screenHeigth = size[1];
-    print('load game assets');
+    print('load story game assets');
     // Initialize FlameAudio
 
     // Load and play background music
