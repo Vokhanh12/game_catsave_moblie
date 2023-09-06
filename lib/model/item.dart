@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import 'package:flame_setup_tuorial/weigth/direction.dart';
+import 'package:flame_setup_tuorial/class/direction.dart';
 
 class Item extends SpriteComponent with HasGameRef {
   Item() : super(size: Vector2.all(100.0));
@@ -37,6 +37,7 @@ class Item extends SpriteComponent with HasGameRef {
   void RunRock(double dt) {
     if (direction == Direction.left) {
       position.x -= 25 * dt;
+      angle += 3;
       x1 = position.x;
       x2 = position.x + characterSize;
     }

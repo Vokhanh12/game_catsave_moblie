@@ -1,20 +1,31 @@
+import 'dart:async'; // Import thư viện thời gian
+
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame_setup_tuorial/model/item.dart';
+import 'package:flame_setup_tuorial/action/items_action.dart';
+import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/model_boss.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
 import 'package:flame_setup_tuorial/system/fpscounter.dart';
-import 'package:flame_setup_tuorial/weigth/direction.dart';
 
 class PlayGame extends FlameGame {
   SpriteComponent background = SpriteComponent();
   ModelPlayer cat = ModelPlayer();
   ModelBoss boss_dog = ModelBoss();
-  Item rock = Item();
+
+  ItemAction item_rock1 = ItemAction('iamge-rock.png', 50);
+  ItemAction item_rock2 = ItemAction('item-rock2.png', 50);
   FPSCounter fpsCounter = FPSCounter(); // Thêm FPSCounter như một thành phần
+  double elapsedTime = 0; // Biến thời gian đã trôi qua
 
   onArrowKeyChanged(Direction direction) {
     cat.direction = direction;
+  }
+
+  void spawnItem(double value_y) async {
+    final ItemAction item_lonnuoc = ItemAction('image-lonnuoc.png', 50);
+    await add(item_lonnuoc);
+    item_lonnuoc.y = value_y;
   }
 
   @override
@@ -35,8 +46,6 @@ class PlayGame extends FlameGame {
 
     await add(cat);
 
-    await add(rock);
-
     await add(boss_dog);
   }
 
@@ -44,14 +53,14 @@ class PlayGame extends FlameGame {
   void update(double dt) {
     super.update(dt);
 
-    if (rock.x <= 100) {
-      if (contains(rock)) {
-        remove(rock);
-        print("Remove the rock");
-      }
-    } else {
-      rock.x -= 50 * dt;
-      rock.angle -= 1 * dt;
+    // Cập nhật thời gian đã trôi qua
+    elapsedTime += dt;
+
+    // Tạo một rock mới sau mỗi 3 giây
+    if (elapsedTime >= 1) {
+      //spawnItem(size[1] / 2);
+
+      elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     }
   }
 }

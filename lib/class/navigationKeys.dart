@@ -1,4 +1,4 @@
-import 'package:flame_setup_tuorial/weigth/direction.dart';
+import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flutter/material.dart';
 
 class NavigationKeys extends StatefulWidget {

@@ -2,24 +2,25 @@ import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flutter/material.dart';
 
-class ModelBoss extends SpriteComponent with HasGameRef {
-  ModelBoss() : super(size: Vector2.all(100.0));
+class Ammo extends SpriteComponent with HasGameRef {
+  Ammo() : super(size: Vector2.all(100.0));
+  Direction direction = Direction.right;
 
-  Direction direction = Direction.none;
-
-  final double characterSize = 200;
-
+  final double characterSize = 20;
   late double x1, y1;
   late double x2, y2;
+
+  int? decore_ammo_value; //0: red  1: green
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
-    sprite = await gameRef.loadSprite('image-boss-right.png');
-    size = Vector2(characterSize + 100, characterSize);
-    position.x = size[0] + characterSize + 70;
-    position.y = size[1];
+    this.sprite = await gameRef.loadSprite('image-ammo-red.png');
+
+    size = Vector2(characterSize, characterSize);
+    this.anchor = Anchor.center;
+
     x1 = position.x;
     y1 = position.y;
     x2 = position.x + characterSize;
@@ -39,7 +40,7 @@ class ModelBoss extends SpriteComponent with HasGameRef {
     Rect hitbox = Rect.fromLTWH(0, 0, characterSize, characterSize);
 
     final paint = Paint()
-      ..color = Colors.blue // Màu sắc của khung va chạm
+      ..color = Colors.green // Màu sắc của khung va chạm
       ..style = PaintingStyle.stroke // Chế độ vẽ khung
       ..strokeWidth = 2.0; // Độ dày của đường viền
 
@@ -49,5 +50,17 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   @override
   void update(double dt) {
     super.update(dt);
+    //move ammo
+    runAmmo(dt);
+  }
+
+  //function for move ammo run on the screen
+  void runAmmo(double dt) {
+    if (direction == Direction.right) {
+      position.x += 400 * dt;
+      angle += 5;
+      x1 = position.x;
+      x2 = position.x + characterSize;
+    }
   }
 }
