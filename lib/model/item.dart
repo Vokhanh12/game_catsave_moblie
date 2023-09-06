@@ -16,6 +16,7 @@ class Item extends SpriteComponent with HasGameRef {
 
     sprite = await gameRef.loadSprite('image-rock.png');
     size = Vector2(characterSize, characterSize);
+    this.anchor = Anchor.center;
 
     // Đặt vị trí của đối tượng ở cuối bên phải của màn hình
     position = Vector2(
@@ -35,7 +36,7 @@ class Item extends SpriteComponent with HasGameRef {
 
   void RunRock(double dt) {
     if (direction == Direction.left) {
-      position.x -= 1 * dt;
+      position.x -= 25 * dt;
       x1 = position.x;
       x2 = position.x + characterSize;
     }

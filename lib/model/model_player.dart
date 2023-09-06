@@ -6,6 +6,7 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
 
   Direction direction = Direction.none;
 
+  bool hasFlippedHorizontally = false;
   final double characterSize = 100;
 
   late double x1, y1;
@@ -14,7 +15,9 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    sprite = await gameRef.loadSprite('image-lonnuoc.png');
+
+    sprite = await gameRef.loadSprite('character_cat.png');
+    this.flipHorizontally();
     size = Vector2(characterSize, characterSize);
     position = gameRef.size / 2;
     x1 = position.x;
@@ -32,24 +35,26 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
   updatePosition(double dt) {
     switch (direction) {
       case Direction.up:
-        position.y -= 10;
+        position.y -= 100 * dt;
         y1 = position.y;
         y2 = position.y + characterSize;
         break;
       case Direction.down:
-        position.y += 10;
+        position.y += 100 * dt;
         y1 = position.y;
         y2 = position.y + characterSize;
         break;
       case Direction.left:
-        position.x -= 10;
+        position.x -= 100 * dt;
         x1 = position.x;
         x2 = position.x + characterSize;
+
         break;
       case Direction.right:
-        position.x += 10;
+        position.x += 100 * dt;
         x1 = position.x;
         x2 = position.x + characterSize;
+
         break;
       case Direction.none:
         break;
