@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
+import 'package:flame_setup_tuorial/model/ammo.dart';
 import 'package:flutter/material.dart';
 
 class ModelBoss extends SpriteComponent with HasGameRef {
@@ -49,5 +50,13 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   @override
   void update(double dt) {
     super.update(dt);
+  }
+
+  void checkCollisionWithAmmos(List<Ammo> ammos) {
+    for (final ammo in ammos) {
+      if (ammo.toRect().overlaps(toRect())) {
+        ammo.isCollidingWithBoss = true;
+      }
+    }
   }
 }

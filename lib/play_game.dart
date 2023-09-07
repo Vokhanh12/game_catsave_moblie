@@ -52,15 +52,10 @@ class PlayGame extends FlameGame {
   @override
   void update(double dt) {
     super.update(dt);
+    // Kiểm tra va chạm giữa ammo và model_boss
+    boss_dog.checkCollisionWithAmmos(cat.activeAmmos);
 
-    // Cập nhật thời gian đã trôi qua
-    elapsedTime += dt;
-
-    // Tạo một rock mới sau mỗi 3 giây
-    if (elapsedTime >= 1) {
-      //spawnItem(size[1] / 2);
-
-      elapsedTime = 0; // Đặt lại thời gian đã trôi qua
-    }
+    // Cập nhật model_boss
+    boss_dog.update(dt);
   }
 }

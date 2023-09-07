@@ -23,12 +23,23 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
   }
 
   //Remove bullets to hit the target when out of the screen
-  remove_attackAmmo(double dt) {
+  remove_attackAmmobyScreen(double dt) {
     List<Ammo> ammosToRemove = [];
     for (final ammo in activeAmmos) {
       if (ammo.position.x > gameRef.size[0]) {
         ammosToRemove.add(ammo);
         print('Remove ammo off the screen');
+      }
+    }
+    activeAmmos.removeWhere((ammo) => ammosToRemove.contains(ammo));
+  }
+
+  void remove_attackAmmobyBoss(double dt) {
+    List<Ammo> ammosToRemove = [];
+    for (final ammo in activeAmmos) {
+      if (ammo.position.x > gameRef.size[0] || ammo.isCollidingWithBoss) {
+        ammosToRemove.add(ammo);
+        print('Remove ammo off the screen or colliding with boss');
       }
     }
     activeAmmos.removeWhere((ammo) => ammosToRemove.contains(ammo));
@@ -62,7 +73,7 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
       print('width: ${gameRef.size[0]} heigth: ${gameRef.size[1]}');
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     } else {
-      remove_attackAmmo(dt);
+      remove_attackAmmobyScreen(dt);
     }
   }
 
@@ -89,23 +100,23 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
   updatePosition(double dt) {
     switch (direction) {
       case Direction.up:
-        position.y -= 100 * dt;
+        position.y -= 200 * dt;
         y1 = position.y;
         y2 = position.y + characterSize;
         break;
       case Direction.down:
-        position.y += 100 * dt;
+        position.y += 200 * dt;
         y1 = position.y;
         y2 = position.y + characterSize;
         break;
       case Direction.left:
-        position.x -= 100 * dt;
+        position.x -= 200 * dt;
         x1 = position.x;
         x2 = position.x + characterSize;
 
         break;
       case Direction.right:
-        position.x += 100 * dt;
+        position.x += 200 * dt;
         x1 = position.x;
         x2 = position.x + characterSize;
         break;

@@ -6,11 +6,13 @@ class Ammo extends SpriteComponent with HasGameRef {
   Ammo() : super(size: Vector2.all(100.0));
   Direction direction = Direction.right;
 
+  bool isCollidingWithBoss = false; // Thêm thuộc tính này
+
   final double characterSize = 20;
   late double x1, y1;
   late double x2, y2;
 
-  int? decore_ammo_value; //0: red  1: green
+  int? decore_ammo_value; // 0: red  1: green
 
   @override
   Future<void> onLoad() async {
@@ -52,6 +54,7 @@ class Ammo extends SpriteComponent with HasGameRef {
     super.update(dt);
     //move ammo
     runAmmo(dt);
+    //remove ammo
   }
 
   //function for move ammo run on the screen
@@ -61,6 +64,11 @@ class Ammo extends SpriteComponent with HasGameRef {
       angle += 5;
       x1 = position.x;
       x2 = position.x + characterSize;
+
+      if (isCollidingWithBoss) {
+        // Xóa ammo nếu va chạm với model_boss
+        gameRef.remove(this);
+      }
     }
   }
 }
