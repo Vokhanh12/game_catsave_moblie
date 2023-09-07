@@ -37,7 +37,6 @@ class Item extends SpriteComponent with HasGameRef {
   void RunRock(double dt) {
     if (direction == Direction.left) {
       position.x -= 25 * dt;
-      angle += 3;
       x1 = position.x;
       x2 = position.x + characterSize;
     }

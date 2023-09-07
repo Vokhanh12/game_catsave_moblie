@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 
 class ModelPlayer extends SpriteComponent with HasGameRef {
   ModelPlayer() : super(size: Vector2.all(100.0));
-
+  List<Ammo> activeAmmos = [];
   Direction direction = Direction.none;
-
   bool hasFlippedHorizontally = false;
   final double characterSize = 100;
   late double x1, y1;
@@ -15,16 +14,31 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
 
   double elapsedTime = 0; // Biến thời gian đã trôi qua
 
-  spawn_AttackAmmo(double dt) {
+  spawn_attackAmmo(double dt) {
     final Ammo newAmmo = Ammo();
     newAmmo.y = position.y + characterSize * 2.2 / 3;
     newAmmo.x = position.x;
     gameRef.add(newAmmo);
+    activeAmmos.add(newAmmo); // Add the ammo to the list
+  }
+
+  //Remove bullets to hit the target when out of the screen
+  remove_attackAmmo(double dt) {
+    List<Ammo> ammosToRemove = [];
+    for (final ammo in activeAmmos) {
+      if (ammo.position.x > gameRef.size[0]) {
+        ammosToRemove.add(ammo);
+        print('Remove ammo off the screen');
+      }
+    }
+    activeAmmos.removeWhere((ammo) => ammosToRemove.contains(ammo));
   }
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    final screenWidth = size[0];
+    final screenHeigth = size[1];
 
     sprite = await gameRef.loadSprite('character_cat.png');
     this.flipHorizontally();
@@ -35,16 +49,20 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
   @override
   void update(double dt) {
     super.update(dt);
+
     updatePosition(dt);
 
     // Cập nhật thời gian đã trôi qua
     elapsedTime += dt;
 
     // Tạo một rock mới sau mỗi 3 giây
-    if (elapsedTime >= 3) {
-      spawn_AttackAmmo(dt);
 
+    if (elapsedTime >= 3) {
+      spawn_attackAmmo(dt);
+      print('width: ${gameRef.size[0]} heigth: ${gameRef.size[1]}');
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
+    } else {
+      remove_attackAmmo(dt);
     }
   }
 
