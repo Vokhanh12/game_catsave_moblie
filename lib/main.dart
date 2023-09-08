@@ -38,7 +38,7 @@ void main() async {
             ),
 
             Padding(
-              padding: const EdgeInsets.only(left: 40, top: 30),
+              padding: const EdgeInsets.only(left: 40, top: 25),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: HeartPlayerProgressBar(value: 100),

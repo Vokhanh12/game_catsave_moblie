@@ -21,10 +21,10 @@ class HeartBossProgressBar extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: 250,
+            width: 300,
             child: Center(
                 child: Text(
-              '80%',
+              '100%',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             )),
             decoration: BoxDecoration(
