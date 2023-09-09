@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/ammo.dart';
@@ -20,7 +18,9 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   HandBoss handboss = HandBoss();
   Item item = Item();
 
-  bool turn = true; //if true rotate left falase rotate right
+  bool turnHand = true; //if true rotate left falase rotate right
+  bool rotateItem =
+      true; //true is rotate item Left , falase is rotate item right
 
   @override
   Future<void> onLoad() async {
@@ -64,7 +64,7 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   void update(double dt) {
     super.update(dt);
     rotateHand(dt);
-    getItemsWithHand(dt);
+    // getItemsWithHand();
   }
 
   //check collision Ammos
@@ -77,43 +77,29 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   }
 
   void rotateHand(double dt) {
-    if (turn) {
+    if (turnHand) {
       handboss.angle += 0.5 * dt;
-      handboss.x2 += handboss.angle;
-      handboss.y2 += handboss.angle;
-      print('${handboss.angle}');
-      print('X hand:${handboss.x2}');
-      print('Y hand:${handboss.y2}');
-      if (handboss.angle > 0.8) turn = false;
-    } else {
-      handboss.angle -= 0.5 * dt;
       handboss.x2 -= handboss.angle;
       handboss.y2 -= handboss.angle;
+
       print('${handboss.angle}');
       print('X hand:${handboss.x2}');
       print('Y hand:${handboss.y2}');
-      if (handboss.angle < -0.6) turn = true;
+
+      if (handboss.angle > 0.8) turnHand = false;
+    } else {
+      handboss.angle -= 0.5 * dt;
+      handboss.x2 += handboss.angle;
+
+      print('${handboss.angle}');
+      print('X hand:${handboss.x2}');
+      print('Y hand:${handboss.y2}');
+      if (handboss.angle < -0.6) turnHand = true;
     }
   }
 
-  void getItemsWithHand(double dt) {
-    void getItemsWithHand() {
-      // Lấy vị trí và góc quay của handboss
-      final double handX = handboss.x;
-      final double handY = handboss.y;
-      final double angle = handboss.angle;
-
-      // Tính toán vị trí mới của item dựa trên vị trí và góc quay của handboss,
-      // cộng thêm khoảng cách width và height
-      final double width = 100.0; // Thay bằng giá trị width mong muốn
-      final double height = 100.0; // Thay bằng giá trị height mong muốn
-
-      final double itemX = handX + width * cos(angle);
-      final double itemY = handY + height * sin(angle);
-
-      // Cập nhật vị trí của item
-      item.position.x = itemX;
-      item.position.y = itemY;
-    }
+  void getItemsWithHand() {
+    item.x = handboss.x2;
+    item.y = handboss.y2;
   }
 }

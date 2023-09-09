@@ -20,7 +20,7 @@ class HandBoss extends SpriteComponent with HasGameRef {
 
     x1 = position.x;
     y1 = position.y;
-    x2 = position.x + WIDTH;
+    x2 = position.x;
     y2 = position.y + HEIGTH;
   }
 
