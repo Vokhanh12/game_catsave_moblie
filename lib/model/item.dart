@@ -26,8 +26,6 @@ class Item extends SpriteComponent with HasGameRef {
 
     x1 = position.x;
     y1 = position.y;
-    x2 = position.x + characterSize;
-    y2 = position.y + characterSize;
   }
 
   @override

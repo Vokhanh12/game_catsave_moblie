@@ -64,7 +64,7 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   void update(double dt) {
     super.update(dt);
     rotateHand(dt);
-    // getItemsWithHand();
+    getItemsWithHand();
   }
 
   //check collision Ammos
@@ -78,22 +78,24 @@ class ModelBoss extends SpriteComponent with HasGameRef {
 
   void rotateHand(double dt) {
     if (turnHand) {
-      handboss.angle += 0.5 * dt;
-      handboss.x2 -= handboss.angle;
-      handboss.y2 -= handboss.angle;
+      handboss.angle += 0.1 * dt;
+      handboss.x2 -= 0.1;
 
-      print('${handboss.angle}');
-      print('X hand:${handboss.x2}');
-      print('Y hand:${handboss.y2}');
+      if (handboss.x2 < 162)
+        handboss.y2 -= 0.1;
+      else
+        handboss.y2 += 0.1;
 
-      if (handboss.angle > 0.8) turnHand = false;
+      if (handboss.angle > 0.6) turnHand = false;
     } else {
-      handboss.angle -= 0.5 * dt;
-      handboss.x2 += handboss.angle;
+      handboss.angle -= 0.1 * dt;
+      handboss.x2 += 0.1;
 
-      print('${handboss.angle}');
-      print('X hand:${handboss.x2}');
-      print('Y hand:${handboss.y2}');
+      if (handboss.x2 > 162)
+        handboss.y2 -= 0.1;
+      else
+        handboss.y2 += 0.1;
+
       if (handboss.angle < -0.6) turnHand = true;
     }
   }
