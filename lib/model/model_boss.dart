@@ -3,10 +3,15 @@ import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/ammo.dart';
 import 'package:flame_setup_tuorial/model/handboss.dart';
 import 'package:flame_setup_tuorial/model/item.dart';
+import 'package:flame_setup_tuorial/model/model_player.dart';
 import 'package:flutter/material.dart';
 
 class ModelBoss extends SpriteComponent with HasGameRef {
   ModelBoss() : super(size: Vector2.all(100.0));
+
+  ModelPlayer? _catModel;
+
+  List<Item> activeItems = [];
 
   Direction direction = Direction.none;
 
@@ -15,8 +20,15 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   late double x1, y1;
   late double x2, y2;
 
+  //start point
+  late double playerX, playerY;
+  //end point
+  late double itemX, itemY;
+
+  double elapsedTime = 0; // Biến thời gian đã trôi qua
+
   HandBoss handboss = HandBoss();
-  Item item = Item();
+  double SPEEDHAND = 0.5;
 
   bool turnHand = true; //if true rotate left falase rotate right
   bool rotateItem =
@@ -36,8 +48,10 @@ class ModelBoss extends SpriteComponent with HasGameRef {
     y1 = position.y;
     x2 = position.x + characterSize;
     y2 = position.y + characterSize;
-    add(item);
+
     add(handboss);
+
+    //get point for player
   }
 
   @override
@@ -63,8 +77,27 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   @override
   void update(double dt) {
     super.update(dt);
-    rotateHand(dt);
-    getItemsWithHand();
+    //rotateHand(dt);
+    //getItemsWithHand();
+
+    // Cập nhật thời gian đã trôi qua
+    elapsedTime += dt;
+
+    // Tạo một rock mới sau mỗi 3 giây
+
+    Item newItems = new Item(_catModel!);
+
+    if (elapsedTime >= 3) {
+      spawn_attackAmmo(dt, newItems);
+
+      print('Spawn Item');
+      elapsedTime = 0; // Đặt lại thời gian đã trôi qua
+    } else {}
+  }
+
+  spawn_attackAmmo(double dt, Item newItems) {
+    add(newItems);
+    activeItems.add(newItems); // Add the Item to the list
   }
 
   //check collision Ammos
@@ -78,30 +111,36 @@ class ModelBoss extends SpriteComponent with HasGameRef {
 
   void rotateHand(double dt) {
     if (turnHand) {
-      handboss.angle += 0.1 * dt;
-      handboss.x2 -= 0.1;
+      handboss.angle += SPEEDHAND * dt;
+      handboss.x2 -= SPEEDHAND;
 
       if (handboss.x2 < 162)
-        handboss.y2 -= 0.1;
+        handboss.y2 -= SPEEDHAND;
       else
-        handboss.y2 += 0.1;
+        handboss.y2 += SPEEDHAND;
 
       if (handboss.angle > 0.6) turnHand = false;
     } else {
-      handboss.angle -= 0.1 * dt;
-      handboss.x2 += 0.1;
+      handboss.angle -= SPEEDHAND * dt;
+      handboss.x2 += SPEEDHAND;
 
       if (handboss.x2 > 162)
-        handboss.y2 -= 0.1;
+        handboss.y2 -= SPEEDHAND;
       else
-        handboss.y2 += 0.1;
+        handboss.y2 += SPEEDHAND;
 
       if (handboss.angle < -0.6) turnHand = true;
     }
   }
 
-  void getItemsWithHand() {
+  /*void getItemsWithHand() {
     item.x = handboss.x2;
     item.y = handboss.y2;
+  }
+  */
+
+  //Getter and Setter
+  void set catModel(ModelPlayer? cat) {
+    _catModel = cat;
   }
 }

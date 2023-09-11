@@ -36,6 +36,9 @@ class PlayGame extends FlameGame {
     final screenHeight = size[1];
     print('load play game assets');
 
+    //Pass Player through Boss
+    boss_dog.catModel = cat;
+
     add(background
       ..sprite = await loadSprite('background.gif')
       ..size = size);
