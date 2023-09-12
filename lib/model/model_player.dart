@@ -52,6 +52,7 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
     final screenHeigth = size[1];
 
     sprite = await gameRef.loadSprite('character_cat.png');
+    this.anchor = Anchor.center;
     this.flipHorizontally();
     size = Vector2(characterSize, characterSize);
     position = gameRef.size / 2;

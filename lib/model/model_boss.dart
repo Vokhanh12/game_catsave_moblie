@@ -96,7 +96,7 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   }
 
   spawn_attackAmmo(double dt, Item newItems) {
-    add(newItems);
+    gameRef.add(newItems);
     activeItems.add(newItems); // Add the Item to the list
   }
 
