@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
+import 'package:flame_setup_tuorial/logic/phuongtrinhbacmot.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
 
 class Item extends SpriteComponent with HasGameRef {
@@ -11,6 +13,8 @@ class Item extends SpriteComponent with HasGameRef {
   Direction direction = Direction.left;
 
   ModelPlayer? _catModel;
+
+  bool isCollidingWithPlayer = false; // Thêm thuộc tính này
 
   final double characterSize = 27;
 
@@ -27,6 +31,8 @@ class Item extends SpriteComponent with HasGameRef {
     super.onLoad();
     final screenWidth = gameRef.size[0];
     final screenHeigth = gameRef.size[1];
+    playerX = _catModel!.position.x;
+    playerY = _catModel!.position.y;
 
     sprite = await gameRef.loadSprite('image-lonnuoc.png');
     size = Vector2(characterSize, characterSize);
@@ -40,13 +46,12 @@ class Item extends SpriteComponent with HasGameRef {
     y1 = position.y;
   }
 
-  @override
   void update(double dt) {
     super.update(dt);
+    updatePlayerXAndY();
     Attack(dt, this);
   }
 
-  @override
   void render(Canvas canvas) {
     super.render(canvas);
 
@@ -55,32 +60,53 @@ class Item extends SpriteComponent with HasGameRef {
     renderDebug(canvas); // Gọi hàm renderDebug để vẽ khung va chạm
   }
 
-  void Attack(double dt, Item item) {
-    playerX = -100;
+  Future<void> updatePlayerXAndY() async {
+    await Future.delayed(Duration(seconds: 3));
+    playerX = _catModel!.position.x;
     playerY = _catModel!.position.y;
-    print('playerX: $playerX');
-    print('playerY:$playerY');
+  }
+
+  void Attack(double dt, Item item) {
     itemX = item.position.x;
     itemY = item.position.y;
-    print('itemX: $itemX');
-    print('itemY:$itemY');
+
+    //Tính hệ số góc m:
+    double m = (playerY - itemY) / (playerX - itemX);
+
+    //Sử dụng hệ số góc m  ti`m b
+    //yA = mxA + b
+    //sử dụng điểm item
+
+    double b = itemY - (m * itemX);
+
+    PhuongTrinhBacMot ptbm = PhuongTrinhBacMot();
+
+    final double itemX_outside = -100;
+    final double itemY_outside = ptbm.findY(m, b, itemX_outside);
 
     // Thời gian cần để di chuyển từ (x0, y0) đến (x1, y1)
-    double totalTime = 2; // Giây
+    double totalTime = 1; // Giây
+    // Thêm một hệ số trễ (delay factor)
+    double delayFactor = 5; // Chỉnh giá trị này để điều chỉnh mức trễ
 
 // Vận tốc theo hướng x và y
-    double vx = (playerX - itemX) / totalTime;
-    double vy = (playerY - itemY) / totalTime;
+    double vx = (itemX_outside - itemX) / totalTime;
+    double vy = (itemY_outside - itemY) / totalTime;
 
     // Di chuyển đối tượng
     double deltaX = vx * dt;
     double deltaY = vy * dt;
+    // Cập nhật vị trí của PlayerX và PlayerY với sự trễ
+    playerX += (deltaX * delayFactor);
+    playerY += (deltaY * delayFactor);
 
-    // Cập nhật vị trí
-    playerX -= 5 * dt;
-    playerY -= 5 * dt;
     item.position.x += deltaX;
     item.position.y += deltaY;
+
+    if (isCollidingWithPlayer) {
+      // Xóa ammo nếu va chạm với model_boss
+      gameRef.remove(this);
+    }
   }
 
   void renderDebug(Canvas canvas) {

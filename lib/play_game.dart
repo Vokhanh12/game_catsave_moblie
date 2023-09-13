@@ -58,7 +58,13 @@ class PlayGame extends FlameGame {
     // Kiểm tra va chạm giữa ammo và model_boss
     boss_dog.checkCollisionWithAmmos(cat.activeAmmos);
 
+    cat.checkCollisionWithItems(boss_dog.activeItems);
+    print('${cat.activeAmmos}');
+
+    print('${boss_dog.activeItems}');
+
     // Cập nhật model_boss
     boss_dog.update(dt);
+    cat.update(dt);
   }
 }

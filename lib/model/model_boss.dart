@@ -77,27 +77,55 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   @override
   void update(double dt) {
     super.update(dt);
-    //rotateHand(dt);
-    //getItemsWithHand();
+    rotateHand(dt);
 
     // Cập nhật thời gian đã trôi qua
     elapsedTime += dt;
 
     // Tạo một rock mới sau mỗi 3 giây
 
-    Item newItems = new Item(_catModel!);
-
-    if (elapsedTime >= 3) {
-      spawn_attackAmmo(dt, newItems);
+    if (elapsedTime >= 5) {
+      Item newItems = new Item(_catModel!);
+      spawn_attackItem(dt, newItems);
+      getItemsWithHand(newItems);
 
       print('Spawn Item');
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
-    } else {}
+    } else {
+      remove_attackAmmobyPlayer(dt);
+
+      remove_attackItemsbyScreen(dt);
+    }
   }
 
-  spawn_attackAmmo(double dt, Item newItems) {
+  spawn_attackItem(double dt, Item newItems) {
     gameRef.add(newItems);
     activeItems.add(newItems); // Add the Item to the list
+    print('aaaaaaaaaaaaaaaa$activeItems');
+    print('add item success');
+  }
+
+  void remove_attackAmmobyPlayer(double dt) {
+    List<Item> itemsToRemove = [];
+    for (final item in activeItems) {
+      if (item.position.x < gameRef.size[0] || item.isCollidingWithPlayer) {
+        itemsToRemove.add(item);
+        print('Remove item off the screen or colliding with player');
+      }
+    }
+    activeItems.removeWhere((item) => itemsToRemove.contains(item));
+  }
+
+  //Remove bullets to hit the target when out of the screen
+  remove_attackItemsbyScreen(double dt) {
+    List<Item> ammosToRemove = [];
+    for (final item in activeItems) {
+      if (item.position.x <= gameRef.size[0]) {
+        ammosToRemove.add(item);
+        print('Remove item off the screen');
+      }
+    }
+    activeItems.removeWhere((item) => ammosToRemove.contains(item));
   }
 
   //check collision Ammos
@@ -133,11 +161,10 @@ class ModelBoss extends SpriteComponent with HasGameRef {
     }
   }
 
-  /*void getItemsWithHand() {
+  void getItemsWithHand(Item item) {
     item.x = handboss.x2;
     item.y = handboss.y2;
   }
-  */
 
   //Getter and Setter
   void set catModel(ModelPlayer? cat) {

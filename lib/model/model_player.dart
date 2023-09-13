@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/ammo.dart';
+import 'package:flame_setup_tuorial/model/item.dart';
 import 'package:flutter/material.dart';
 
 class ModelPlayer extends SpriteComponent with HasGameRef {
@@ -45,6 +46,14 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
     activeAmmos.removeWhere((ammo) => ammosToRemove.contains(ammo));
   }
 
+  void checkCollisionWithItems(List<Item> items) {
+    for (final item in items) {
+      if (item.toRect().overlaps(toRect())) {
+        item.isCollidingWithPlayer = true;
+      }
+    }
+  }
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
@@ -75,6 +84,7 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     } else {
       remove_attackAmmobyScreen(dt);
+      remove_attackAmmobyBoss(dt);
     }
   }
 
