@@ -23,18 +23,6 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
     activeAmmos.add(newAmmo); // Add the ammo to the list
   }
 
-  //Remove bullets to hit the target when out of the screen
-  remove_attackAmmobyScreen(double dt) {
-    List<Ammo> ammosToRemove = [];
-    for (final ammo in activeAmmos) {
-      if (ammo.position.x > gameRef.size[0]) {
-        ammosToRemove.add(ammo);
-        print('Remove ammo off the screen');
-      }
-    }
-    activeAmmos.removeWhere((ammo) => ammosToRemove.contains(ammo));
-  }
-
   void remove_attackAmmobyBoss(double dt) {
     List<Ammo> ammosToRemove = [];
     for (final ammo in activeAmmos) {
@@ -47,6 +35,8 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
   }
 
   void checkCollisionWithItems(List<Item> items) {
+    print('Test Item: ${items}');
+
     for (final item in items) {
       if (item.toRect().overlaps(toRect())) {
         item.isCollidingWithPlayer = true;
@@ -83,7 +73,6 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
       print('width: ${gameRef.size[0]} heigth: ${gameRef.size[1]}');
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     } else {
-      remove_attackAmmobyScreen(dt);
       remove_attackAmmobyBoss(dt);
     }
   }

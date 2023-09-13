@@ -93,22 +93,25 @@ class ModelBoss extends SpriteComponent with HasGameRef {
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     } else {
       remove_attackAmmobyPlayer(dt);
-
-      remove_attackItemsbyScreen(dt);
     }
   }
 
   spawn_attackItem(double dt, Item newItems) {
     gameRef.add(newItems);
     activeItems.add(newItems); // Add the Item to the list
+
+    print('Test spawn:${activeItems}');
+
     print('aaaaaaaaaaaaaaaa$activeItems');
     print('add item success');
   }
 
   void remove_attackAmmobyPlayer(double dt) {
     List<Item> itemsToRemove = [];
+
     for (final item in activeItems) {
-      if (item.position.x < gameRef.size[0] || item.isCollidingWithPlayer) {
+      print('check status: ${item.isCollidingWithPlayer}');
+      if (item.position.x <= -100 || item.isCollidingWithPlayer) {
         itemsToRemove.add(item);
         print('Remove item off the screen or colliding with player');
       }
@@ -116,20 +119,9 @@ class ModelBoss extends SpriteComponent with HasGameRef {
     activeItems.removeWhere((item) => itemsToRemove.contains(item));
   }
 
-  //Remove bullets to hit the target when out of the screen
-  remove_attackItemsbyScreen(double dt) {
-    List<Item> ammosToRemove = [];
-    for (final item in activeItems) {
-      if (item.position.x <= gameRef.size[0]) {
-        ammosToRemove.add(item);
-        print('Remove item off the screen');
-      }
-    }
-    activeItems.removeWhere((item) => ammosToRemove.contains(item));
-  }
-
   //check collision Ammos
   void checkCollisionWithAmmos(List<Ammo> ammos) {
+    print('Test ammo:$ammos');
     for (final ammo in ammos) {
       if (ammo.toRect().overlaps(toRect())) {
         ammo.isCollidingWithBoss = true;
