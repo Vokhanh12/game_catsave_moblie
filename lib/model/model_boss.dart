@@ -89,7 +89,6 @@ class ModelBoss extends SpriteComponent with HasGameRef {
       spawn_attackItem(dt, newItems);
       getItemsWithHand(newItems);
 
-      print('Spawn Item');
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     } else {
       remove_attackAmmobyPlayer(dt);
@@ -99,18 +98,12 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   spawn_attackItem(double dt, Item newItems) {
     gameRef.add(newItems);
     activeItems.add(newItems); // Add the Item to the list
-
-    print('Test spawn:${activeItems}');
-
-    print('aaaaaaaaaaaaaaaa$activeItems');
-    print('add item success');
   }
 
   void remove_attackAmmobyPlayer(double dt) {
     List<Item> itemsToRemove = [];
 
     for (final item in activeItems) {
-      print('check status: ${item.isCollidingWithPlayer}');
       if (item.position.x <= -100 || item.isCollidingWithPlayer) {
         itemsToRemove.add(item);
         print('Remove item off the screen or colliding with player');
@@ -121,7 +114,6 @@ class ModelBoss extends SpriteComponent with HasGameRef {
 
   //check collision Ammos
   void checkCollisionWithAmmos(List<Ammo> ammos) {
-    print('Test ammo:$ammos');
     for (final ammo in ammos) {
       if (ammo.toRect().overlaps(toRect())) {
         ammo.isCollidingWithBoss = true;

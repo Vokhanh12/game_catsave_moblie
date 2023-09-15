@@ -7,8 +7,13 @@ import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/model_boss.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
 import 'package:flame_setup_tuorial/system/fpscounter.dart';
+import 'package:flutter/material.dart';
 
 class PlayGame extends FlameGame {
+  late BuildContext context; // Thêm trường context vào PlayGame
+
+  PlayGame(this.context);
+
   SpriteComponent background = SpriteComponent();
   ModelPlayer cat = ModelPlayer();
   ModelBoss boss_dog = ModelBoss();
@@ -55,6 +60,7 @@ class PlayGame extends FlameGame {
   @override
   void update(double dt) {
     super.update(dt);
+
     // Kiểm tra va chạm giữa ammo và model_boss
     boss_dog.checkCollisionWithAmmos(cat.activeAmmos);
 
