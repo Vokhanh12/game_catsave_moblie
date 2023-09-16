@@ -19,9 +19,10 @@ void main() async {
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Builder(builder: (context) {
-          final game = PlayGame(context);
-          final syscp = Provider.of<SystemConsoleProvider>(context);
+        body: Builder(builder: (BuildContext context) {
+          final syscp =
+              Provider.of<SystemConsoleProvider>(context, listen: false);
+          final game = PlayGame(syscp);
 
           return Stack(
             children: [
@@ -51,24 +52,28 @@ void main() async {
                 padding: const EdgeInsets.only(top: 25),
                 child: Align(
                     alignment: Alignment.topCenter,
-                    child: Text('Level: ${syscp.systemConsole.level_gun}')),
+                    child: Selector<SystemConsoleProvider, double>(
+                        selector: (context, systemConsoleProvider) =>
+                            systemConsoleProvider.systemConsole.level_gun,
+                        builder: (context, levelgundata, child) {
+                          return Text(
+                            'Level: $levelgundata',
+                            style: TextStyle(color: Colors.white),
+                          );
+                        })),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 100),
                 child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Builder(
-                    builder: (context) {
-                      return ElevatedButton(
-                        child: Text('Test'),
-                        onPressed: () => syscp.updateLevelGun(10),
-                      );
-                    },
-                  ),
-                ),
+                    alignment: Alignment.topCenter,
+                    child: ElevatedButton(
+                      child: Text('Tăng giá trị'),
+                      onPressed: () {
+                        // Lấy giá trị hiện tại của level_gun và cập nhật nó
+                        syscp.updateLevelGun(10);
+                      },
+                    )),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 40, top: 25),
                 child: Align(

@@ -6,13 +6,13 @@ import 'package:flame_setup_tuorial/action/items_action.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/model_boss.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
+import 'package:flame_setup_tuorial/provider/system_console_provider.dart';
 import 'package:flame_setup_tuorial/system/fpscounter.dart';
-import 'package:flutter/material.dart';
 
 class PlayGame extends FlameGame {
-  late BuildContext context; // Thêm trường context vào PlayGame
+  SystemConsoleProvider? syscp; // Thêm trường context vào PlayGame
 
-  PlayGame(this.context);
+  PlayGame(this.syscp);
 
   SpriteComponent background = SpriteComponent();
   ModelPlayer cat = ModelPlayer();
@@ -72,5 +72,7 @@ class PlayGame extends FlameGame {
     // Cập nhật model_boss
     boss_dog.update(dt);
     cat.update(dt);
+
+    syscp!.updateLevelGun(10);
   }
 }
