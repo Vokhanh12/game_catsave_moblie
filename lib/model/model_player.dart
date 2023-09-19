@@ -17,8 +17,8 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
 
   spawn_attackAmmo(double dt) {
     final Ammo newAmmo = Ammo();
-    newAmmo.y = position.y + characterSize * 2.2 / 3;
-    newAmmo.x = position.x;
+    newAmmo.y = position.y + characterSize * 2.2 / 7;
+    newAmmo.x = position.x + 25;
     gameRef.add(newAmmo);
     activeAmmos.add(newAmmo); // Add the ammo to the list
   }

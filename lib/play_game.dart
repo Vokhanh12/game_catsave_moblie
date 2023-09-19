@@ -1,9 +1,11 @@
 import 'dart:async'; // Import thư viện thời gian
+import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_setup_tuorial/action/items_action.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
+import 'package:flame_setup_tuorial/model/item_up_level.dart';
 import 'package:flame_setup_tuorial/model/model_boss.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
 import 'package:flame_setup_tuorial/provider/system_console_provider.dart';
@@ -22,6 +24,8 @@ class PlayGame extends FlameGame {
   ItemAction item_rock2 = ItemAction('item-rock2.png', 50);
   FPSCounter fpsCounter = FPSCounter(); // Thêm FPSCounter như một thành phần
   double elapsedTime = 0; // Biến thời gian đã trôi qua
+
+  Random random = Random();
 
   onArrowKeyChanged(Direction direction) {
     cat.direction = direction;
@@ -74,5 +78,28 @@ class PlayGame extends FlameGame {
     cat.update(dt);
 
     syscp!.updateLevelGun(10);
+
+    elapsedTime += dt;
+
+    if (elapsedTime >= 3) {
+      spawnItemUpLevel();
+      elapsedTime = 0; // Đặt lại thời gian đã trôi qua
+    }
+  }
+
+  void delaySpawnItemUpLevel(int number) {}
+
+  void spawnItemUpLevel() {
+    ItemUpLevel itemUpLevel = new ItemUpLevel();
+    itemUpLevel.x = size[0];
+    itemUpLevel.y = ramdomPosionY(size[1]);
+
+    this.add(itemUpLevel);
+  }
+
+  double ramdomPosionY(double numberToRandom) {
+    double rabdomNumber = random.nextDouble() * numberToRandom;
+
+    return rabdomNumber;
   }
 }

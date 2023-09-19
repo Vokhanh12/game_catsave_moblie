@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HeartPlayerProgressBar extends StatelessWidget {
-  final double value;
+  final int value;
   final double width;
   final double height;
 
@@ -24,26 +24,14 @@ class HeartPlayerProgressBar extends StatelessWidget {
               width: width,
               child: Center(
                 child: Row(
-                  children: [
-                    Icon(
+                  children: List.generate(
+                    value, // Tạo số lượng biểu tượng dựa trên giá trị
+                    (index) => Icon(
                       Icons.favorite,
                       color: Colors.red,
-                      size: height *
-                          1, // Điều chỉnh kích thước biểu tượng trái tim
+                      size: height * 1,
                     ),
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: height *
-                          1, // Điều chỉnh kích thước biểu tượng trái tim
-                    ),
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: height *
-                          1, // Điều chỉnh kích thước biểu tượng trái tim
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

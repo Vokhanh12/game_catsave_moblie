@@ -56,9 +56,22 @@ void main() async {
                         selector: (context, systemConsoleProvider) =>
                             systemConsoleProvider.systemConsole.level_gun,
                         builder: (context, levelgundata, child) {
-                          return Text(
-                            'Level: $levelgundata',
-                            style: TextStyle(color: Colors.white),
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/image_up_level_gun.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Level: $levelgundata',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
                           );
                         })),
               ),
@@ -77,11 +90,15 @@ void main() async {
               Padding(
                 padding: const EdgeInsets.only(left: 40, top: 25),
                 child: Align(
-                  alignment: Alignment.topLeft,
-                  child: HeartPlayerProgressBar(
-                    value: syscp.systemConsole.heart_player,
-                  ),
-                ),
+                    alignment: Alignment.topLeft,
+                    child: Selector<SystemConsoleProvider, int>(
+                        selector: (context, systemConsoleProvider) =>
+                            systemConsoleProvider.systemConsole.heart_player,
+                        builder: (context, heartPlayer, child) {
+                          return HeartPlayerProgressBar(
+                            value: heartPlayer,
+                          );
+                        })),
               ),
             ],
           );

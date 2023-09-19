@@ -5,10 +5,9 @@ import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/logic/phuongtrinhbacmot.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
-import 'package:flame_setup_tuorial/model_abstract/GameSpawn.dart';
 
-class Item_game extends SpriteComponent with HasGameRef {
-  Item_game(ModelPlayer cat) : super(size: Vector2.all(100.0)) {
+class Item extends SpriteComponent with HasGameRef {
+  Item(ModelPlayer cat) : super(size: Vector2.all(100.0)) {
     _catModel = cat;
   }
   Direction direction = Direction.left;
@@ -67,7 +66,7 @@ class Item_game extends SpriteComponent with HasGameRef {
     playerY = _catModel!.position.y;
   }
 
-  void Attack(double dt, Item_game item) {
+  void Attack(double dt, Item item) {
     itemX = item.position.x;
     itemY = item.position.y;
 
@@ -132,42 +131,5 @@ class Item_game extends SpriteComponent with HasGameRef {
   //Getter and Setter
   void set catModel(ModelPlayer? cat) {
     _catModel = cat;
-  }
-}
-
-class Item implements GameSpawn {
-  //Get
-  double? _widthMoblie;
-  double? _heigthMoblie;
-
-  // Set
-  final width = 100;
-  final heigth = 100;
-
-  double? posisionX;
-  double? posisionY;
-
-  final speedThrow = 1.0;
-  final speedRotate = 1.0;
-
-  Item(this._widthMoblie, this._heigthMoblie){
-    
-
-
-  };
-
-  @override
-  void removeOutColection() {
-    // TODO: implement removeOutColection
-  }
-
-  @override
-  void removeOutTheScreen() {
-    // TODO: implement removeOutTheScreen
-  }
-
-  @override
-  void spawnInTheScreen() {
-    // TODO: implement spawnInTheScreen
   }
 }
