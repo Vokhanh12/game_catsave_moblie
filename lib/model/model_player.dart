@@ -2,6 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/ammo.dart';
 import 'package:flame_setup_tuorial/model/item.dart';
+import 'package:flame_setup_tuorial/model/item_up_level.dart';
+import 'package:flame_setup_tuorial/system/system_config.dart';
 import 'package:flutter/material.dart';
 
 class ModelPlayer extends SpriteComponent with HasGameRef {
@@ -14,35 +16,6 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
   late double x2, y2;
 
   double elapsedTime = 0; // Biến thời gian đã trôi qua
-
-  spawn_attackAmmo(double dt) {
-    final Ammo newAmmo = Ammo();
-    newAmmo.y = position.y + characterSize * 2.2 / 7;
-    newAmmo.x = position.x + 25;
-    gameRef.add(newAmmo);
-    activeAmmos.add(newAmmo); // Add the ammo to the list
-  }
-
-  void remove_attackAmmobyBoss(double dt) {
-    List<Ammo> ammosToRemove = [];
-    for (final ammo in activeAmmos) {
-      if (ammo.position.x > gameRef.size[0] || ammo.isCollidingWithBoss) {
-        ammosToRemove.add(ammo);
-        print('Remove ammo off the screen or colliding with boss');
-      }
-    }
-    activeAmmos.removeWhere((ammo) => ammosToRemove.contains(ammo));
-  }
-
-  void checkCollisionWithItems(List<Item> items) {
-    print('Test Item: ${items}');
-
-    for (final item in items) {
-      if (item.toRect().overlaps(toRect())) {
-        item.isCollidingWithPlayer = true;
-      }
-    }
-  }
 
   @override
   Future<void> onLoad() async {
@@ -68,12 +41,12 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
 
     // Tạo một rock mới sau mỗi 3 giây
 
-    if (elapsedTime >= 3) {
+    if (elapsedTime >= SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER) {
       spawn_attackAmmo(dt);
       print('width: ${gameRef.size[0]} heigth: ${gameRef.size[1]}');
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     } else {
-      remove_attackAmmobyBoss(dt);
+      remove_attackAmmoByBoss(dt);
     }
   }
 
@@ -95,6 +68,46 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
       ..strokeWidth = 2.0; // Độ dày của đường viền
 
     canvas.drawRect(hitbox, paint);
+  }
+
+  spawn_attackAmmo(double dt) {
+    final Ammo newAmmo = Ammo();
+    newAmmo.y = position.y + characterSize * 2.2 / 7;
+    newAmmo.x = position.x + 25;
+    gameRef.add(newAmmo);
+    activeAmmos.add(newAmmo); // Add the ammo to the list
+  }
+
+  void remove_attackAmmoByBoss(double dt) {
+    List<Ammo> ammosToRemove = [];
+    for (final ammo in activeAmmos) {
+      if (ammo.position.x > gameRef.size[0]) {
+        ammosToRemove.add(ammo);
+        print('Remove ammo off the screen or colliding with boss');
+      } else if (ammo.isCollidingWithBoss) {
+        ammosToRemove.add(ammo);
+        print('Remove ammo colliding the boss');
+      }
+    }
+    activeAmmos.removeWhere((ammo) => ammosToRemove.contains(ammo));
+  }
+
+  void checkCollisionWithItems(List<Item> items) {
+    print('Test Item: ${items}');
+
+    for (final item in items) {
+      if (item.toRect().overlaps(toRect())) {
+        item.isCollidingWithPlayer = true;
+      }
+    }
+  }
+
+  void checkCollisionWithItemsUpLevel(List<ItemUpLevel> itemsUpLevel) {
+    for (final itemUpLevel in itemsUpLevel) {
+      if (itemUpLevel.toRect().overlaps(toRect())) {
+        itemUpLevel.isCollidingWithPlayer = true;
+      }
+    }
   }
 
   updatePosition(double dt) {

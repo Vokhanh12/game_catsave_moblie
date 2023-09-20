@@ -4,6 +4,7 @@ import 'package:flame_setup_tuorial/model/ammo.dart';
 import 'package:flame_setup_tuorial/model/handboss.dart';
 import 'package:flame_setup_tuorial/model/item.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
+import 'package:flame_setup_tuorial/system/system_config.dart';
 import 'package:flutter/material.dart';
 
 class ModelBoss extends SpriteComponent with HasGameRef {
@@ -84,7 +85,7 @@ class ModelBoss extends SpriteComponent with HasGameRef {
 
     // Tạo một rock mới sau mỗi 3 giây
 
-    if (elapsedTime >= 5) {
+    if (elapsedTime >= SystemConfig.TIME_THROW_ITEM_BY_BOSS) {
       Item newItems = new Item(_catModel!);
       spawn_attackItem(dt, newItems);
       getItemsWithHand(newItems);
@@ -107,6 +108,9 @@ class ModelBoss extends SpriteComponent with HasGameRef {
       if (item.position.x <= -100 || item.isCollidingWithPlayer) {
         itemsToRemove.add(item);
         print('Remove item off the screen or colliding with player');
+      } else if (item.isCollidingWithPlayer) {
+        itemsToRemove.add(item);
+        print('Remove item colliding the player');
       }
     }
     activeItems.removeWhere((item) => itemsToRemove.contains(item));

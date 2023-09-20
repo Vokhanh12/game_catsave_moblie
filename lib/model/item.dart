@@ -14,7 +14,9 @@ class Item extends SpriteComponent with HasGameRef {
 
   ModelPlayer? _catModel;
 
-  bool isCollidingWithPlayer = false; // Thêm thuộc tính này
+  // this line is check collition Item Boss
+  bool isCollidingWithPlayer = false;
+  //this line is check collixion ItemUpLevel
 
   final double characterSize = 27;
 

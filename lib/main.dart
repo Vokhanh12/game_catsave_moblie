@@ -93,7 +93,7 @@ void main() async {
                     alignment: Alignment.topLeft,
                     child: Selector<SystemConsoleProvider, int>(
                         selector: (context, systemConsoleProvider) =>
-                            systemConsoleProvider.systemConsole.heart_player,
+                            systemConsoleProvider.systemConsole.hear_player,
                         builder: (context, heartPlayer, child) {
                           return HeartPlayerProgressBar(
                             value: heartPlayer,

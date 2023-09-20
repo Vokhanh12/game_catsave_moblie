@@ -10,6 +10,7 @@ import 'package:flame_setup_tuorial/model/model_boss.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
 import 'package:flame_setup_tuorial/provider/system_console_provider.dart';
 import 'package:flame_setup_tuorial/system/fpscounter.dart';
+import 'package:flame_setup_tuorial/system/system_config.dart';
 
 class PlayGame extends FlameGame {
   SystemConsoleProvider? syscp; // Thêm trường context vào PlayGame
@@ -24,6 +25,8 @@ class PlayGame extends FlameGame {
   ItemAction item_rock2 = ItemAction('item-rock2.png', 50);
   FPSCounter fpsCounter = FPSCounter(); // Thêm FPSCounter như một thành phần
   double elapsedTime = 0; // Biến thời gian đã trôi qua
+
+  List<ItemUpLevel> activeItemUpLevel = [];
 
   Random random = Random();
 
@@ -69,6 +72,9 @@ class PlayGame extends FlameGame {
     boss_dog.checkCollisionWithAmmos(cat.activeAmmos);
 
     cat.checkCollisionWithItems(boss_dog.activeItems);
+
+    cat.checkCollisionWithItemsUpLevel(activeItemUpLevel);
+
     print('${cat.activeAmmos}');
 
     print('${boss_dog.activeItems}');
@@ -84,6 +90,8 @@ class PlayGame extends FlameGame {
     if (elapsedTime >= 3) {
       spawnItemUpLevel();
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
+    } else {
+      remove_getItemUpLevel(dt);
     }
   }
 
@@ -95,6 +103,31 @@ class PlayGame extends FlameGame {
     itemUpLevel.y = ramdomPosionY(size[1]);
 
     this.add(itemUpLevel);
+    activeItemUpLevel.add(itemUpLevel);
+  }
+
+  void remove_getItemUpLevel(double dt) {
+    List<ItemUpLevel> itemsUpLevelToRemove = [];
+    for (final itemUpLevel in activeItemUpLevel) {
+      if (itemUpLevel.position.x < 0) {
+        itemsUpLevelToRemove.add(itemUpLevel);
+        print('Remove itemUpLevel off the screen');
+      } else if (itemUpLevel.isCollidingWithPlayer) {
+        itemsUpLevelToRemove.add(itemUpLevel);
+
+        if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 2) {
+          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER = 2;
+        } else {
+          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER -=
+              SystemConfig.TIME_REMOVESHOTT_AMMO_BY_PLAYER;
+        }
+
+        print('Rmove itemUplevel colliding the player');
+      }
+    }
+
+    activeItemUpLevel
+        .removeWhere((ammo) => itemsUpLevelToRemove.contains(ammo));
   }
 
   double ramdomPosionY(double numberToRandom) {

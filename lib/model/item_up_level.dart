@@ -13,6 +13,8 @@ class ItemUpLevel extends SpriteComponent with HasGameRef {
 
   Random random = Random();
 
+  bool isCollidingWithPlayer = false;
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
@@ -55,5 +57,9 @@ class ItemUpLevel extends SpriteComponent with HasGameRef {
 
   void run(double speed, double dt) {
     this.position.x -= speed * dt;
+
+    if (isCollidingWithPlayer) {
+      gameRef.remove(this);
+    }
   }
 }
