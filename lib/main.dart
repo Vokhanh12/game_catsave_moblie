@@ -48,33 +48,7 @@ void main() async {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Selector<SystemConsoleProvider, double>(
-                        selector: (context, systemConsoleProvider) =>
-                            systemConsoleProvider.systemConsole.level_gun,
-                        builder: (context, levelgundata, child) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/image_up_level_gun.png',
-                                width: 50,
-                                height: 50,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Level: $levelgundata',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          );
-                        })),
-              ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 100),
                 child: Align(
@@ -91,14 +65,56 @@ void main() async {
                 padding: const EdgeInsets.only(left: 40, top: 25),
                 child: Align(
                     alignment: Alignment.topLeft,
-                    child: Selector<SystemConsoleProvider, int>(
-                        selector: (context, systemConsoleProvider) =>
-                            systemConsoleProvider.systemConsole.hear_player,
-                        builder: (context, heartPlayer, child) {
-                          return HeartPlayerProgressBar(
-                            value: heartPlayer,
-                          );
-                        })),
+                    child: Row(
+                      children: [
+                        Selector<SystemConsoleProvider, int>(
+                            selector: (context, systemConsoleProvider) =>
+                                systemConsoleProvider.systemConsole.hear_player,
+                            builder: (context, heartPlayer, child) {
+                              return HeartPlayerProgressBar(
+                                value: heartPlayer,
+                              );
+                            }),
+                        Selector<SystemConsoleProvider, int>(
+                            selector: (context, systemConsoleProvider) =>
+                                systemConsoleProvider.systemConsole.level_gun,
+                            builder: (context, levelgundata, child) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/image_up_level_gun.png',
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                  Container(
+                                      child: Row(
+                                    children: List.generate(
+                                      levelgundata,
+                                      (index) => Icon(
+                                        Icons.rectangle,
+                                        color: Color.fromARGB(255, 255, 0, 0),
+                                        size: 30,
+                                      ),
+                                    ),
+                                  )),
+                                  Container(
+                                      child: Row(
+                                    children: List.generate(
+                                      8 - levelgundata,
+                                      (index) => Icon(
+                                        Icons.rectangle,
+                                        color:
+                                            Color.fromARGB(255, 179, 179, 179),
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ))
+                                ],
+                              );
+                            }),
+                      ],
+                    )),
               ),
             ],
           );

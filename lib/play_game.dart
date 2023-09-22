@@ -83,8 +83,6 @@ class PlayGame extends FlameGame {
     boss_dog.update(dt);
     cat.update(dt);
 
-    syscp!.updateLevelGun(10);
-
     elapsedTime += dt;
 
     if (elapsedTime >= 3) {
@@ -114,12 +112,16 @@ class PlayGame extends FlameGame {
         print('Remove itemUpLevel off the screen');
       } else if (itemUpLevel.isCollidingWithPlayer) {
         itemsUpLevelToRemove.add(itemUpLevel);
+        syscp!.updateLevelGun(1);
 
-        if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 2) {
-          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER = 2;
-        } else {
-          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER -=
-              SystemConfig.TIME_REMOVESHOTT_AMMO_BY_PLAYER;
+        // number ammo Gun up Level max level 1 = 7
+        if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 1)
+          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER = 1;
+        else
+          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER -= 1;
+
+        if (syscp!.systemConsole.level_gun > 8) {
+          syscp!.systemConsole.level_gun = 8;
         }
 
         print('Rmove itemUplevel colliding the player');

@@ -7,7 +7,7 @@ class SystemConsoleProvider with ChangeNotifier {
   SystemConsole get systemConsole => _systemConsole;
 
   // Hàm để cập nhật giá trị level_gun
-  void updateLevelGun(double newValue) {
+  void updateLevelGun(int newValue) {
     _systemConsole.level_gun += newValue;
     notifyListeners(); // Thông báo cho các widget người tiêu dùng về sự thay đổi
   }
