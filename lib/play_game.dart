@@ -13,13 +13,18 @@ import 'package:flame_setup_tuorial/system/fpscounter.dart';
 import 'package:flame_setup_tuorial/system/system_config.dart';
 
 class PlayGame extends FlameGame {
-  SystemConsoleProvider? syscp; // Thêm trường context vào PlayGame
+  SystemConsoleProvider
+      systemConsoleProvider; // Thêm trường context vào PlayGame
 
-  PlayGame(this.syscp);
+  late ModelPlayer cat;
+  late ModelBoss boss_dog;
+
+  PlayGame(this.systemConsoleProvider) {
+    cat = ModelPlayer(systemConsoleProvider: systemConsoleProvider);
+    boss_dog = ModelBoss(systemConsoleProvider: systemConsoleProvider);
+  }
 
   SpriteComponent background = SpriteComponent();
-  ModelPlayer cat = ModelPlayer();
-  ModelBoss boss_dog = ModelBoss();
 
   ItemAction item_rock1 = ItemAction('iamge-rock.png', 50);
   ItemAction item_rock2 = ItemAction('item-rock2.png', 50);
@@ -85,7 +90,7 @@ class PlayGame extends FlameGame {
 
     elapsedTime += dt;
 
-    if (elapsedTime >= 3) {
+    if (elapsedTime >= SystemConfig.TIME_SPAWN_ITEM_UP_LEVEL) {
       spawnItemUpLevel();
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     } else {
@@ -112,7 +117,7 @@ class PlayGame extends FlameGame {
         print('Remove itemUpLevel off the screen');
       } else if (itemUpLevel.isCollidingWithPlayer) {
         itemsUpLevelToRemove.add(itemUpLevel);
-        syscp!.updateLevelGun(1);
+        systemConsoleProvider!.updateLevelGun();
 
         // number ammo Gun up Level max level 1 = 7
         if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 1)
@@ -120,8 +125,8 @@ class PlayGame extends FlameGame {
         else
           SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER -= 1;
 
-        if (syscp!.systemConsole.level_gun > 8) {
-          syscp!.systemConsole.level_gun = 8;
+        if (systemConsoleProvider!.systemConsole.level_gun > 8) {
+          systemConsoleProvider!.systemConsole.level_gun = 8;
         }
 
         print('Rmove itemUplevel colliding the player');

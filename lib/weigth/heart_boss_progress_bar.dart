@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HeartBossProgressBar extends StatelessWidget {
-  final double value;
+  final int value;
   final double width;
   final double height;
 
@@ -24,7 +24,7 @@ class HeartBossProgressBar extends StatelessWidget {
             width: 300,
             child: Center(
                 child: Text(
-              '100%',
+              '$value',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             )),
             decoration: BoxDecoration(

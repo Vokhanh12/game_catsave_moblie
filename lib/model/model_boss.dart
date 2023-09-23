@@ -4,11 +4,15 @@ import 'package:flame_setup_tuorial/model/ammo.dart';
 import 'package:flame_setup_tuorial/model/handboss.dart';
 import 'package:flame_setup_tuorial/model/item.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
+import 'package:flame_setup_tuorial/provider/system_console_provider.dart';
 import 'package:flame_setup_tuorial/system/system_config.dart';
 import 'package:flutter/material.dart';
 
 class ModelBoss extends SpriteComponent with HasGameRef {
-  ModelBoss() : super(size: Vector2.all(100.0));
+  final SystemConsoleProvider systemConsoleProvider;
+
+  ModelBoss({required this.systemConsoleProvider})
+      : super(size: Vector2.all(100.0));
 
   ModelPlayer? _catModel;
 
@@ -29,7 +33,7 @@ class ModelBoss extends SpriteComponent with HasGameRef {
   double elapsedTime = 0; // Biến thời gian đã trôi qua
 
   HandBoss handboss = HandBoss();
-  double SPEEDHAND = 0.5;
+  double SPEEDHAND = 1;
 
   bool turnHand = true; //if true rotate left falase rotate right
   bool rotateItem =
@@ -127,23 +131,23 @@ class ModelBoss extends SpriteComponent with HasGameRef {
 
   void rotateHand(double dt) {
     if (turnHand) {
-      handboss.angle += SPEEDHAND * dt;
-      handboss.x2 -= SPEEDHAND;
+      handboss.angle += SystemConfig.TIME_ROTATE_HAND * dt;
+      handboss.x2 -= SystemConfig.TIME_ROTATE_HAND;
 
       if (handboss.x2 < 162)
-        handboss.y2 -= SPEEDHAND;
+        handboss.y2 -= SystemConfig.TIME_ROTATE_HAND;
       else
-        handboss.y2 += SPEEDHAND;
+        handboss.y2 += SystemConfig.TIME_ROTATE_HAND;
 
       if (handboss.angle > 0.6) turnHand = false;
     } else {
-      handboss.angle -= SPEEDHAND * dt;
-      handboss.x2 += SPEEDHAND;
+      handboss.angle -= SystemConfig.TIME_ROTATE_HAND * dt;
+      handboss.x2 += SystemConfig.TIME_ROTATE_HAND;
 
       if (handboss.x2 > 162)
-        handboss.y2 -= SPEEDHAND;
+        handboss.y2 -= SystemConfig.TIME_ROTATE_HAND;
       else
-        handboss.y2 += SPEEDHAND;
+        handboss.y2 += SystemConfig.TIME_ROTATE_HAND;
 
       if (handboss.angle < -0.6) turnHand = true;
     }

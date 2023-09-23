@@ -43,9 +43,14 @@ void main() async {
                 padding: const EdgeInsets.all(30.0),
                 child: Align(
                   alignment: Alignment.topRight,
-                  child: HeartBossProgressBar(
-                    value: syscp.systemConsole.heart_boss,
-                  ),
+                  child: Selector<SystemConsoleProvider, int>(
+                      selector: (context, systemConsoleProvider) =>
+                          systemConsoleProvider.systemConsole.heart_boss,
+                      builder: (context, heartboss, child) {
+                        return HeartBossProgressBar(
+                          value: heartboss,
+                        );
+                      }),
                 ),
               ),
 
@@ -57,7 +62,7 @@ void main() async {
                       child: Text('Tăng giá trị'),
                       onPressed: () {
                         // Lấy giá trị hiện tại của level_gun và cập nhật nó
-                        syscp.updateLevelGun(10);
+                        syscp.updateLevelGun();
                       },
                     )),
               ),

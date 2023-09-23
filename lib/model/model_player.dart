@@ -3,11 +3,15 @@ import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/ammo.dart';
 import 'package:flame_setup_tuorial/model/item.dart';
 import 'package:flame_setup_tuorial/model/item_up_level.dart';
+import 'package:flame_setup_tuorial/provider/system_console_provider.dart';
 import 'package:flame_setup_tuorial/system/system_config.dart';
 import 'package:flutter/material.dart';
 
 class ModelPlayer extends SpriteComponent with HasGameRef {
-  ModelPlayer() : super(size: Vector2.all(100.0));
+  final SystemConsoleProvider systemConsoleProvider;
+
+  ModelPlayer({required this.systemConsoleProvider})
+      : super(size: Vector2.all(100.0));
   List<Ammo> activeAmmos = [];
   Direction direction = Direction.none;
   bool hasFlippedHorizontally = false;
@@ -86,6 +90,8 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
         print('Remove ammo off the screen or colliding with boss');
       } else if (ammo.isCollidingWithBoss) {
         ammosToRemove.add(ammo);
+        systemConsoleProvider.updateHeartBoss();
+
         print('Remove ammo colliding the boss');
       }
     }

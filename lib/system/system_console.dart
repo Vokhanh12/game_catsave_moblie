@@ -11,4 +11,7 @@ class SystemConsole {
   var time_spawn_item_up_level = SystemConfig.TIME_SPAWN_ITEM_UP_LEVEL;
   var time_throw_item_by_boss = SystemConfig.TIME_THROW_ITEM_BY_BOSS;
   var time_shoot_ammo_by_player = SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER;
+
+  var status_attack_boss = SystemConfig.STATUS_ATTACK_BOSS;
+  var time_rotate_hand = SystemConfig.TIME_ROTATE_HAND;
 }
