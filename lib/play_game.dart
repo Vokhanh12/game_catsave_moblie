@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_setup_tuorial/action/items_action.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
+import 'package:flame_setup_tuorial/model/item_up_heart.dart';
 import 'package:flame_setup_tuorial/model/item_up_level.dart';
 import 'package:flame_setup_tuorial/model/model_boss.dart';
 import 'package:flame_setup_tuorial/model/model_player.dart';
@@ -28,10 +29,14 @@ class PlayGame extends FlameGame {
 
   ItemAction item_rock1 = ItemAction('iamge-rock.png', 50);
   ItemAction item_rock2 = ItemAction('item-rock2.png', 50);
+
   FPSCounter fpsCounter = FPSCounter(); // Thêm FPSCounter như một thành phần
-  double elapsedTime = 0; // Biến thời gian đã trôi qua
+
+  double elapsedTimeUpLevel = 0; // Biến thời gian đã trôi qua
+  double elapsedTimeUpHeart = 0;
 
   List<ItemUpLevel> activeItemUpLevel = [];
+  List<ItemUpHeart> activeItemUpHeart = [];
 
   Random random = Random();
 
@@ -88,14 +93,27 @@ class PlayGame extends FlameGame {
     boss_dog.update(dt);
     cat.update(dt);
 
-    elapsedTime += dt;
+    elapsedTimeUpLevel += dt;
 
-    if (elapsedTime >= SystemConfig.TIME_SPAWN_ITEM_UP_LEVEL) {
+    if (elapsedTimeUpLevel >= SystemConfig.TIME_SPAWN_ITEM_UP_LEVEL) {
       spawnItemUpLevel();
-      elapsedTime = 0; // Đặt lại thời gian đã trôi qua
+      elapsedTimeUpLevel = 0; // Đặt lại thời gian đã trôi qua
     } else {
       remove_getItemUpLevel(dt);
     }
+
+    /*
+
+    elapsedTimeUpHeart += dt;
+
+    if (elapsedTimeUpHeart >= SystemConfig.TIME_SPAWN_TIME_UP_HEART) {
+      spawnItemUpHeart();
+      elapsedTimeUpHeart = 0; // Đặt lại thời gian đã trôi qua
+    } else {
+      remove_getItemUpHeart(dt);
+    }
+
+    */
   }
 
   void delaySpawnItemUpLevel(int number) {}
@@ -135,6 +153,43 @@ class PlayGame extends FlameGame {
 
     activeItemUpLevel
         .removeWhere((ammo) => itemsUpLevelToRemove.contains(ammo));
+  }
+
+  void spawnItemUpHeart() {
+    ItemUpHeart itemUpItemUpHeart = new ItemUpHeart();
+    itemUpItemUpHeart.x = size[0];
+    itemUpItemUpHeart.y = ramdomPosionY(size[1]);
+
+    this.add(itemUpItemUpHeart);
+    activeItemUpHeart.add(itemUpItemUpHeart);
+  }
+
+  void remove_getItemUpHeart(double dt) {
+    List<ItemUpHeart> itemsUpHeartToRemove = [];
+    for (final itemUpHeart in activeItemUpHeart) {
+      if (itemUpHeart.position.x < 0) {
+        itemsUpHeartToRemove.add(itemUpHeart);
+        print('Remove itemUpHeart off the screen');
+      } else if (itemUpHeart.isCollidingWithPlayer) {
+        itemsUpHeartToRemove.add(itemUpHeart);
+        systemConsoleProvider!.updateLevelGun();
+
+        // number ammo Gun up Level max level 1 = 7
+        if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 1)
+          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER = 1;
+        else
+          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER -= 1;
+
+        if (systemConsoleProvider!.systemConsole.level_gun > 8) {
+          systemConsoleProvider!.systemConsole.level_gun = 8;
+        }
+
+        print('Rmove itemUpHeart colliding the player');
+      }
+    }
+
+    activeItemUpLevel
+        .removeWhere((ammo) => itemsUpHeartToRemove.contains(ammo));
   }
 
   double ramdomPosionY(double numberToRandom) {

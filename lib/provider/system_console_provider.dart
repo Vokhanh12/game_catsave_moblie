@@ -15,6 +15,7 @@ class SystemConsoleProvider with ChangeNotifier {
 
   void updateHeartBoss() {
     reducedHeartBoss();
+    changeStatusBoss();
     notifyListeners();
   }
 
@@ -33,9 +34,9 @@ class SystemConsoleProvider with ChangeNotifier {
   void reducedHeartBoss() {
     _systemConsole.heart_boss -= SystemConfig.DAMGE_GUN;
 
-    if (_systemConsole.heart_boss < SystemConfig.HEART_BOSS * 60 / 100)
+    if (_systemConsole.heart_boss < SystemConfig.HEART_BOSS * (60 / 100))
       _systemConsole.status_attack_boss = 1;
-    else if (_systemConsole.heart_boss < SystemConfig.HEART_BOSS * 30 / 100)
+    else if (_systemConsole.heart_boss < SystemConfig.HEART_BOSS * (30 / 100))
       systemConsole.status_attack_boss = 2;
   }
 
@@ -46,18 +47,20 @@ class SystemConsoleProvider with ChangeNotifier {
   void changeStatusBoss() {
     switch (_systemConsole.status_attack_boss) {
       case 1:
-        AttackBoss(SystemConfig.TIME_THROW_ITEM_BY_BOSS / 2,
-            SystemConfig.TIME_ITEM_BOSS * 2);
+        ChangeAttackTypeBoss(systemConsole.time_throw_item_by_boss / 2,
+            _systemConsole.time_rotate_hand * 2);
         break;
       case 2:
-        AttackBoss(SystemConfig.TIME_THROW_ITEM_BY_BOSS / 3,
-            SystemConfig.TIME_ITEM_BOSS * 3);
+        ChangeAttackTypeBoss(systemConsole.time_throw_item_by_boss / 3,
+            _systemConsole.time_rotate_hand * 3);
         break;
     }
   }
 
-  void AttackBoss(double timethrow, double timerotate) {
-    _systemConsole.time_throw_item_by_boss = timethrow;
-    _systemConsole.time_rotate_hand = timerotate;
+  void ChangeAttackTypeBoss(double timethrow, double timerotate) {
+    print("time rotate:$timerotate");
+
+    SystemConfig.TIME_THROW_ITEM_BY_BOSS = timethrow;
+    SystemConfig.TIME_ROTATE_HAND = timerotate;
   }
 }

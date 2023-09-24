@@ -6,7 +6,9 @@ class SystemConfig {
   static int DAMGE_GUN = 100;
   static int DAME_ITEM = 1;
   static double TIME_ITEM_BOSS = 5;
+
   static double TIME_SPAWN_ITEM_UP_LEVEL = 30; //
+  static double TIME_SPAWN_TIME_UP_HEART = 1;
 
   static int STATUS_ATTACK_BOSS = 0;
   static double TIME_THROW_ITEM_BY_BOSS = 5; // 5s
