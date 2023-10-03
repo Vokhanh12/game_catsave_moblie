@@ -53,19 +53,7 @@ void main() async {
                       }),
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: Align(
-                    alignment: Alignment.topCenter,
-                    child: ElevatedButton(
-                      child: Text('Tăng giá trị'),
-                      onPressed: () {
-                        // Lấy giá trị hiện tại của level_gun và cập nhật nó
-                        syscp.updateLevelGun();
-                      },
-                    )),
-              ),
+            
               Padding(
                 padding: const EdgeInsets.only(left: 40, top: 25),
                 child: Align(

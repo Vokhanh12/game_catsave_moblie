@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/ammo.dart';
 import 'package:flame_setup_tuorial/model/item.dart';
+import 'package:flame_setup_tuorial/model/item_up_heart.dart';
 import 'package:flame_setup_tuorial/model/item_up_level.dart';
 import 'package:flame_setup_tuorial/provider/system_console_provider.dart';
 import 'package:flame_setup_tuorial/system/system_config.dart';
@@ -98,7 +99,8 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
     activeAmmos.removeWhere((ammo) => ammosToRemove.contains(ammo));
   }
 
-  void checkCollisionWithItems(List<Item> items) {
+  void checkCollisionWithItems(List<Item> items)
+  {
     print('Test Item: ${items}');
 
     for (final item in items) {
@@ -108,13 +110,24 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
     }
   }
 
-  void checkCollisionWithItemsUpLevel(List<ItemUpLevel> itemsUpLevel) {
+  void checkCollisionWithItemsUpLevel(List<ItemUpLevel> itemsUpLevel)
+  {
     for (final itemUpLevel in itemsUpLevel) {
-      if (itemUpLevel.toRect().overlaps(toRect())) {
+      if (itemUpLevel.toRect().overlaps(toRect())) 
         itemUpLevel.isCollidingWithPlayer = true;
-      }
     }
   }
+
+  void checkCollisionWithItemUpHeart(List<ItemUpHeart> itemsUpHeart)
+  {
+    for(final itemUpHeart in itemsUpHeart)
+    {
+      if(itemUpHeart.toRect().overlaps(toRect()))
+      itemUpHeart.isCollidingWithPlayer = true;
+
+    }
+  }
+
 
   updatePosition(double dt) {
     switch (direction) {

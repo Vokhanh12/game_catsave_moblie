@@ -6,7 +6,7 @@ import 'package:flame_setup_tuorial/class/direction.dart';
 
 class ItemUpHeart extends SpriteComponent with HasGameRef {
   ItemUpHeart() : super(size: Vector2.all(100));
-  final double characterSize = 40.0;
+  final double characterSize = 30.0;
 
   // Used to go to left in the screen
   Direction direction = Direction.left;
@@ -22,7 +22,7 @@ class ItemUpHeart extends SpriteComponent with HasGameRef {
     final SCREEN_WIDTH_MOBLIE = gameRef.size[0];
     final SCREEN_HEIGTH_MOBLIE = gameRef.size[1];
 
-    this.sprite = await gameRef.loadSprite('image_up_heart.png');
+    this.sprite = await gameRef.loadSprite('image-up-heart.png');
     size = Vector2(characterSize, characterSize);
     this.anchor = Anchor.center;
 
@@ -48,7 +48,7 @@ class ItemUpHeart extends SpriteComponent with HasGameRef {
     Rect hitbox = Rect.fromLTWH(0, 0, characterSize, characterSize);
 
     final paint = Paint()
-      ..color = Color.fromARGB(255, 208, 255, 0) // Màu sắc của khung va chạm
+      ..color = Color.fromARGB(255, 255, 109, 243) // Màu sắc của khung va chạm
       ..style = PaintingStyle.stroke // Chế độ vẽ khung
       ..strokeWidth = 2.0; // Độ dày của đường viền
 

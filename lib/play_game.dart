@@ -85,6 +85,8 @@ class PlayGame extends FlameGame {
 
     cat.checkCollisionWithItemsUpLevel(activeItemUpLevel);
 
+    cat.checkCollisionWithItemUpHeart(activeItemUpHeart);
+
     print('${cat.activeAmmos}');
 
     print('${boss_dog.activeItems}');
@@ -93,27 +95,33 @@ class PlayGame extends FlameGame {
     boss_dog.update(dt);
     cat.update(dt);
 
+
+
+
+    // set time delay for item up level
     elapsedTimeUpLevel += dt;
 
-    if (elapsedTimeUpLevel >= SystemConfig.TIME_SPAWN_ITEM_UP_LEVEL) {
+    if (elapsedTimeUpLevel >= SystemConfig.TIME_SPAWN_ITEM_UP_LEVEL)
+    {
       spawnItemUpLevel();
       elapsedTimeUpLevel = 0; // Đặt lại thời gian đã trôi qua
-    } else {
+    } else 
       remove_getItemUpLevel(dt);
-    }
-
-    /*
-
+  
+    // set time deplay for item up heart
     elapsedTimeUpHeart += dt;
 
-    if (elapsedTimeUpHeart >= SystemConfig.TIME_SPAWN_TIME_UP_HEART) {
+    if (elapsedTimeUpHeart >= 2)
+    {
       spawnItemUpHeart();
-      elapsedTimeUpHeart = 0; // Đặt lại thời gian đã trôi qua
-    } else {
+      elapsedTimeUpHeart = 0;
+    } else 
       remove_getItemUpHeart(dt);
-    }
 
-    */
+
+  
+
+
   }
 
   void delaySpawnItemUpLevel(int number) {}
@@ -129,26 +137,31 @@ class PlayGame extends FlameGame {
 
   void remove_getItemUpLevel(double dt) {
     List<ItemUpLevel> itemsUpLevelToRemove = [];
-    for (final itemUpLevel in activeItemUpLevel) {
-      if (itemUpLevel.position.x < 0) {
+    for (final itemUpLevel in activeItemUpLevel)
+    {
+      if (itemUpLevel.position.x < 0)
+      {
         itemsUpLevelToRemove.add(itemUpLevel);
         print('Remove itemUpLevel off the screen');
-      } else if (itemUpLevel.isCollidingWithPlayer) {
-        itemsUpLevelToRemove.add(itemUpLevel);
-        systemConsoleProvider!.updateLevelGun();
+      } else if (itemUpLevel.isCollidingWithPlayer)
+        {
 
-        // number ammo Gun up Level max level 1 = 7
-        if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 1)
-          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER = 1;
-        else
-          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER -= 1;
+          itemsUpLevelToRemove.add(itemUpLevel);
+          systemConsoleProvider!.updateLevelGun();
 
-        if (systemConsoleProvider!.systemConsole.level_gun > 8) {
-          systemConsoleProvider!.systemConsole.level_gun = 8;
+          // number ammo Gun up Level max level 1 = 7
+          if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 1)
+            SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER = 1;
+          else
+            SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER -= 1;
+
+
+          if (systemConsoleProvider!.systemConsole.level_gun > 8)
+            systemConsoleProvider!.systemConsole.level_gun = 8;
+
+
+          print('Rmove itemUplevel colliding the player');
         }
-
-        print('Rmove itemUplevel colliding the player');
-      }
     }
 
     activeItemUpLevel
@@ -167,29 +180,22 @@ class PlayGame extends FlameGame {
   void remove_getItemUpHeart(double dt) {
     List<ItemUpHeart> itemsUpHeartToRemove = [];
     for (final itemUpHeart in activeItemUpHeart) {
-      if (itemUpHeart.position.x < 0) {
+
+      if (itemUpHeart.position.x < 0)
+      {
         itemsUpHeartToRemove.add(itemUpHeart);
         print('Remove itemUpHeart off the screen');
-      } else if (itemUpHeart.isCollidingWithPlayer) {
-        itemsUpHeartToRemove.add(itemUpHeart);
-        systemConsoleProvider!.updateLevelGun();
+        
+      } else if (itemUpHeart.isCollidingWithPlayer)
+        {
+          itemsUpHeartToRemove.add(itemUpHeart);
 
-        // number ammo Gun up Level max level 1 = 7
-        if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 1)
-          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER = 1;
-        else
-          SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER -= 1;
-
-        if (systemConsoleProvider!.systemConsole.level_gun > 8) {
-          systemConsoleProvider!.systemConsole.level_gun = 8;
+          print('Remove itemUpHeart colliding the player');
         }
-
-        print('Rmove itemUpHeart colliding the player');
-      }
     }
 
     activeItemUpLevel
-        .removeWhere((ammo) => itemsUpHeartToRemove.contains(ammo));
+        .removeWhere((itemUpHeart) => itemsUpHeartToRemove.contains(itemUpHeart));
   }
 
   double ramdomPosionY(double numberToRandom) {
