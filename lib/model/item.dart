@@ -98,7 +98,7 @@ class Item extends SpriteComponent with HasGameRef {
     // Di chuyển đối tượng
     double deltaX = vx * dt;
     double deltaY = vy * dt;
-    // Cập nhật vị trí của PlayerX và PlayerY với sự trễ
+    // Cập nhật vị trí củCorsair iCUE NEXUS a PlayerX và PlayerY với sự trễ
     playerX += (deltaX * delayFactor);
     playerY += (deltaY * delayFactor);
 

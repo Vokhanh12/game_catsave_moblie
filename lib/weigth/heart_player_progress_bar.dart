@@ -19,10 +19,7 @@ class HeartPlayerProgressBar extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Positioned(
-            child: Container(
-              width: width,
-              child: Center(
+            Container(
                 child: Row(
                   children: List.generate(
                     value, // Tạo số lượng biểu tượng dựa trên giá trị
@@ -32,10 +29,20 @@ class HeartPlayerProgressBar extends StatelessWidget {
                       size: height * 1,
                     ),
                   ),
-                ),
               ),
             ),
-          )
+            Container(
+                child: Row(
+                  children: List.generate(
+                    5 - value, // Tạo số lượng biểu tượng dựa trên giá trị
+                    (index) => Icon(
+                      Icons.favorite,
+                      color: Color.fromARGB(255, 124, 120, 120),
+                      size: height * 1,
+                    ),
+                  ),
+                ),
+            ),
         ],
       ),
     );

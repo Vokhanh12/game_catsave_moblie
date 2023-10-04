@@ -19,10 +19,17 @@ class SystemConsoleProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateHeartPlayer() {
+
+  void updateAddHeartPlayer(){
     increaseHeartPlayer();
+    notifyListeners();
+
+  }
+
+  void updateRemoveHeartPlayer(){
     reducedHeartPlayer();
     notifyListeners();
+
   }
 
   void increaseUpLevelGun() {

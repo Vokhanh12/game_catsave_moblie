@@ -91,7 +91,7 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
         print('Remove ammo off the screen or colliding with boss');
       } else if (ammo.isCollidingWithBoss) {
         ammosToRemove.add(ammo);
-        systemConsoleProvider.updateHeartBoss();
+        // update remove heart
 
         print('Remove ammo colliding the boss');
       }

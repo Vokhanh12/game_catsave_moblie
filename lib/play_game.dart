@@ -111,7 +111,7 @@ class PlayGame extends FlameGame {
     // set time deplay for item up heart
     elapsedTimeUpHeart += dt;
 
-    if (elapsedTimeUpHeart >= 2)
+    if (elapsedTimeUpHeart >= SystemConfig.TIME_SPAWN_TIME_UP_HEART)
     {
       spawnItemUpHeart();
       elapsedTimeUpHeart = 0;
@@ -147,7 +147,7 @@ class PlayGame extends FlameGame {
         {
 
           itemsUpLevelToRemove.add(itemUpLevel);
-          systemConsoleProvider!.updateLevelGun();
+          systemConsoleProvider.updateLevelGun();
 
           // number ammo Gun up Level max level 1 = 7
           if (SystemConfig.TIME_SHOOT_AMMO_BY_PLAYER == 1)
@@ -194,7 +194,7 @@ class PlayGame extends FlameGame {
         }
     }
 
-    activeItemUpLevel
+    activeItemUpHeart
         .removeWhere((itemUpHeart) => itemsUpHeartToRemove.contains(itemUpHeart));
   }
 

@@ -109,11 +109,14 @@ class ModelBoss extends SpriteComponent with HasGameRef {
     List<Item> itemsToRemove = [];
 
     for (final item in activeItems) {
-      if (item.position.x <= -100 || item.isCollidingWithPlayer) {
+      if (item.position.x <= -100) {
         itemsToRemove.add(item);
         print('Remove item off the screen or colliding with player');
       } else if (item.isCollidingWithPlayer) {
         itemsToRemove.add(item);
+
+        systemConsoleProvider.updateRemoveHeartPlayer();
+
         print('Remove item colliding the player');
       }
     }

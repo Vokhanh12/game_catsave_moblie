@@ -124,7 +124,7 @@ class StoryGame extends FlameGame {
       case 6:
         dialogTextPaint.render(
             canvas,
-            'Báo mèo: Thôi được tao sẽ đi giải cứu thoiiii',
+            'Báo mèo: Thôi được tao sẽ đi giải cứu',
             Vector2(startScreen + 5, size[1] - 90));
         break;
       case 7:
