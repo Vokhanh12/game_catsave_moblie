@@ -1,8 +1,10 @@
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_setup_tuorial/class/navigationKeys.dart';
+import 'package:flame_setup_tuorial/class/point.dart';
 import 'package:flame_setup_tuorial/play_game.dart';
 import 'package:flame_setup_tuorial/provider/system_console_provider.dart';
+import 'package:flame_setup_tuorial/weigth/coordinate_display.dart';
 import 'package:flame_setup_tuorial/weigth/heart_boss_progress_bar.dart';
 import 'package:flame_setup_tuorial/weigth/heart_player_progress_bar.dart';
 import 'package:flutter/material.dart';
@@ -109,6 +111,15 @@ void main() async {
                       ],
                     )),
               ),
+
+
+      Selector<SystemConsoleProvider, Point>(
+                            selector: (context, systemConsoleProvider) =>
+                                systemConsoleProvider.systemConsole.pointPlayer ?? Point(100, 100),
+                            builder: (context, pointPlayer, child) {
+                              return CoordinateDisplay(x: pointPlayer.getX, y: pointPlayer.getY);
+                            }),
+
             ],
           );
         }),

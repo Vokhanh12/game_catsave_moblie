@@ -89,10 +89,12 @@ class ModelBoss extends SpriteComponent with HasGameRef {
 
     // Tạo một rock mới sau mỗi 3 giây
 
-    if (elapsedTime >= SystemConfig.TIME_THROW_ITEM_BY_BOSS) {
+    if (elapsedTime >= 2) {
       Item newItems = new Item(_catModel!);
-      spawn_attackItem(dt, newItems);
       getItemsWithHand(newItems);
+
+
+      spawn_attackItem(dt, newItems);
 
       elapsedTime = 0; // Đặt lại thời gian đã trôi qua
     } else {
@@ -109,18 +111,22 @@ class ModelBoss extends SpriteComponent with HasGameRef {
     List<Item> itemsToRemove = [];
 
     for (final item in activeItems) {
-      if (item.position.x <= -100) {
+      if (item.position.x <= 0) {
         itemsToRemove.add(item);
         print('Remove item off the screen or colliding with player');
       } else if (item.isCollidingWithPlayer) {
         itemsToRemove.add(item);
 
-        systemConsoleProvider.updateRemoveHeartPlayer();
+      // systemConsoleProvider.updateRemoveHeartPlayer();
 
         print('Remove item colliding the player');
       }
+
     }
+
     activeItems.removeWhere((item) => itemsToRemove.contains(item));
+
+
   }
 
   //check collision Ammos

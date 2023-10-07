@@ -1,3 +1,4 @@
+
 import 'package:flame/components.dart';
 import 'package:flame_setup_tuorial/class/direction.dart';
 import 'package:flame_setup_tuorial/model/ammo.dart';
@@ -7,6 +8,8 @@ import 'package:flame_setup_tuorial/model/item_up_level.dart';
 import 'package:flame_setup_tuorial/provider/system_console_provider.dart';
 import 'package:flame_setup_tuorial/system/system_config.dart';
 import 'package:flutter/material.dart';
+
+import '../class/point.dart';
 
 class ModelPlayer extends SpriteComponent with HasGameRef {
   final SystemConsoleProvider systemConsoleProvider;
@@ -40,6 +43,8 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
     super.update(dt);
 
     updatePosition(dt);
+    Point incPoint = new Point(this.position.x, this.position.y);
+    systemConsoleProvider.systemConsole.pointPlayer = incPoint;
 
     // Cập nhật thời gian đã trôi qua
     elapsedTime += dt;
@@ -91,7 +96,8 @@ class ModelPlayer extends SpriteComponent with HasGameRef {
         print('Remove ammo off the screen or colliding with boss');
       } else if (ammo.isCollidingWithBoss) {
         ammosToRemove.add(ammo);
-        // update remove heart
+
+        systemConsoleProvider.updateHeartBoss();
 
         print('Remove ammo colliding the boss');
       }

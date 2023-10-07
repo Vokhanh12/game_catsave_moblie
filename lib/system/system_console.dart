@@ -1,3 +1,4 @@
+import 'package:flame_setup_tuorial/class/point.dart';
 import 'package:flame_setup_tuorial/system/system_config.dart';
 
 class SystemConsole {
@@ -14,4 +15,12 @@ class SystemConsole {
 
   var status_attack_boss = SystemConfig.STATUS_ATTACK_BOSS;
   var time_rotate_hand = SystemConfig.TIME_ROTATE_HAND;
+
+
+  var player_locate_X;
+  var player_locate_y;
+
+  Point? pointPlayer;
+
+
 }

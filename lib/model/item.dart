@@ -33,6 +33,7 @@ class Item extends SpriteComponent with HasGameRef {
     super.onLoad();
     final screenWidth = gameRef.size[0];
     final screenHeigth = gameRef.size[1];
+    
     playerX = _catModel!.position.x;
     playerY = _catModel!.position.y;
 

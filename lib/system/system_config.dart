@@ -25,4 +25,6 @@ class SystemConfig {
 
   static double TIME_SHOOT_AMMO_BY_PLAYER = 8; // Max 2
   static int TIME_REMOVESHOTT_AMMO_BY_PLAYER = 1;
+
+  
 }
