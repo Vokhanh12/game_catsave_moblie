@@ -1,16 +1,5 @@
-# flame_setup_tuorial
+<h1>Game Cat Save </h1>
+Story game:
+![image](https://github.com/Vokhanh12/game_catsave_moblie/assets/36543564/3849f471-609f-434a-9e62-1c94d8d7a0d2)
+Play game:
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
